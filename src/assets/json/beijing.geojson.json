@@ -1,0 +1,126 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.313226,39.970598]
+      },
+      "properties": {
+        "name": "中国人民大学",
+        "type": "school"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.34731,39.981819]
+      },
+      "properties": {
+        "name": "北京航天航空大学",
+        "type": "school"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.357122,40.004989]
+      },
+      "properties": {
+        "name": "中国农业大学",
+        "type": "school"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.310918,39.992873]
+      },
+      "properties": {
+        "name": "北京大学",
+        "type": "school"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.557351,39.912182]
+      },
+      "properties": {
+        "name": "中国传媒大学",
+        "type": "school"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.403379,39.973153]
+      },
+      "properties": {
+        "name": "安贞医院",
+        "type": "hospital"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.414943,40.072551]
+      },
+      "properties": {
+        "name": "北京清华长庚医院",
+        "type": "hospital"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.36001,39.982728]
+      },
+      "properties": {
+        "name": "北京大学第三医院",
+        "type": "hospital"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.453397,39.925878]
+      },
+      "properties": {
+        "name": "北京朝阳医院",
+        "type": "hospital"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.295122,39.986416]
+      },
+      "properties": {
+        "name": "北京海淀公园",
+        "type": "park"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.393096,40.009926]
+      },
+      "properties": {
+        "name": "北京奥林匹克公园",
+        "type": "park"
+      }
+    }
+  ]
+}
