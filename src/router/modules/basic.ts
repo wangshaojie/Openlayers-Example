@@ -3,6 +3,7 @@ import type { RouteRecordRaw } from 'vue-router';
 const moduleName = 'dashboard';
 
 const routes: Array<RouteRecordRaw> = [
+  { path: '/:pathMatch(.*)*', redirect: '/' },
   {
     path: '/dashboard',
     name: moduleName,
@@ -91,6 +92,14 @@ const routes: Array<RouteRecordRaw> = [
           title: '地图样式'
         },
         component: () => import('@/pages/basic/custom.vue')
+      },
+      {
+        path: 'layerstyle',
+        name: 'layerstyle',
+        meta: {
+          title: '矢量图层样式'
+        },
+        component: () => import('@/pages/basic/layerstyle.vue')
       },
       {
         path: 'staticmap',

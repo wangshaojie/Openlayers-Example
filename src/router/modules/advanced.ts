@@ -83,6 +83,22 @@ const routes: Array<RouteRecordRaw> = [
           title: '散点'
         },
         component: () => import('@/pages/advanced/sandian.vue')
+      },
+      {
+        path: 'timer',
+        name: 'Timer',
+        meta: {
+          title: '定时开关灯'
+        },
+        component: () => import('@/pages/advanced/timer.vue')
+      },
+      {
+        path: 'dynamics',
+        name: 'Dynamics',
+        meta: {
+          title: '数据动态更新'
+        },
+        component: () => import('@/pages/advanced/dynamics.vue')
       }
     ],
   },
