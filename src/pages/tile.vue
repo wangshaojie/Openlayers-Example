@@ -41,7 +41,8 @@ const markerData = [
 const createTileLayer = () =>
   new TileLayer({
     source: new XYZ({
-      url: "http://192.168.111.97:8080/roadmap/{z}/{x}/{y}.png",
+      url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+      // url: "http://192.168.111.97:8080/roadmap/{z}/{x}/{y}.png",
     }),
   });
 

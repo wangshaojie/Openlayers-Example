@@ -107,7 +107,8 @@ onMounted(async () => {
     layers: [
       new TileLayer({
         source: new XYZ({
-          url: 'http://192.168.111.97:8080/roadmap/{z}/{x}/{y}.png', // 地图瓦片URL
+          // url: 'http://192.168.111.97:8080/roadmap/{z}/{x}/{y}.png', // 本地地图瓦片URL
+          url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', // 地图瓦片URL
         }),
       }),
       new VectorLayer({

@@ -67,7 +67,8 @@ onMounted(() => {
     layers: [
       new TileLayer({
         source: new XYZ({
-          url: 'http://192.168.111.97:8080/roadmap/{z}/{x}/{y}.png', // 修改为你的本地瓦片地址
+          url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', // 修改为你的本地瓦片地址
+          // url: 'http://192.168.111.97:8080/roadmap/{z}/{x}/{y}.png', // 修改为你的本地瓦片地址
           tileSize: 256
         })
       }),
