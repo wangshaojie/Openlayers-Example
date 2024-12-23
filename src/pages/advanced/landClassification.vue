@@ -73,6 +73,7 @@ onMounted(() => {
     view: new View({
       center: fromLonLat([116.391365,39.929944]), // 中国地图中心坐标（经纬度）
       zoom: 12, // 初始缩放级别
+      
     }),
   });
 });
