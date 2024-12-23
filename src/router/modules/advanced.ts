@@ -99,6 +99,14 @@ const routes: Array<RouteRecordRaw> = [
           title: '数据动态更新'
         },
         component: () => import('@/pages/advanced/dynamics.vue')
+      },
+      {
+        path: 'landClassification',
+        name: 'LandClassification',
+        meta: {
+          title: '土地分类'
+        },
+        component: () => import('@/pages/advanced/landClassification.vue')
       }
     ],
   },
