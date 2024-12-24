@@ -86,6 +86,14 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/pages/basic/mapcolor.vue')
       },
       {
+        path: 'mapcolor2',
+        name: 'Mapcolor2',
+        meta: {
+          title: '地图背景色2'
+        },
+        component: () => import('@/pages/basic/mapcolor2.vue')
+      },
+      {
         path: 'mapStyle',
         name: 'MapStyle',
         meta: {
