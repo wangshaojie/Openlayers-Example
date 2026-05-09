@@ -1,121 +1,109 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-const moduleName = 'dashboard';
-
 const routes: Array<RouteRecordRaw> = [
-  { path: '/:pathMatch(.*)*', redirect: '/' },
   {
-    path: '/dashboard',
-    name: moduleName,
-    redirect: '/dashboard/welcome',
+    path: '/basic',
+    name: 'basic',
+    redirect: '/basic/map-switch',
     meta: {
-      title: '基础',
-      icon: 'ant-design:dashboard-outlined',
+      title: '基础功能',
     },
     children: [
       {
-        path: 'welcome',
-        name: 'Welcome',
+        path: '/basic/map-switch',
+        name: 'MapSwitch',
         meta: {
-          title: '更改地图和语言'
+          title: '地图切换',
         },
-        component: () => import('@/pages/home.vue')
+        component: () => import('@/pages/basic/custom.vue'),
       },
       {
-        path: 'about',
-        name: 'About',
+        path: '/basic/offline-tiles',
+        name: 'OfflineTiles',
         meta: {
-          title: '第二课'
+          title: '离线瓦片',
         },
-        component: () => import('@/pages/about.vue')
+        component: () => import('@/pages/tile.vue'),
       },
       {
-        path: 'tile',
-        name: 'Tile',
+        path: '/basic/area-marker',
+        name: 'AreaMarker',
         meta: {
-          title: '离线瓦片'
+          title: '分类标注',
         },
-        component: () => import('@/pages/tile.vue')
+        component: () => import('@/pages/areamark.vue'),
       },
       {
-        path: 'areamark',
-        name: 'AreaMark',
+        path: '/basic/dynamic-marker',
+        name: 'DynamicMarker',
         meta: {
-          title: '分类标注'
+          title: '动态分类标注',
         },
-        component: () => import('@/pages/areamark.vue')
+        component: () => import('@/pages/dynamicsmark.vue'),
       },
       {
-        path: 'dynamicsmark',
-        name: 'DynamicsMark',
+        path: '/basic/region-color',
+        name: 'RegionColor',
         meta: {
-          title: '动态分类标注'
+          title: '区域颜色',
         },
-        component: () => import('@/pages/dynamicsmark.vue')
+        component: () => import('@/pages/mapbgcolor.vue'),
       },
       {
-        path: 'mapbgcolor',
-        name: 'MapbgColor',
+        path: '/basic/drag-marker',
+        name: 'DragMarker',
         meta: {
-          title: '区域颜色'
+          title: '拖拽标记',
         },
-        component: () => import('@/pages/mapbgcolor.vue')
+        component: () => import('@/pages/basic/dragmarkers.vue'),
       },
       {
-        path: 'dragmarkers',
-        name: 'DragtheMarkers',
+        path: '/basic/geojson-area',
+        name: 'GeojsonArea',
         meta: {
-          title: '拖拽标记'
+          title: 'GeoJSON区域',
         },
-        component: () => import('@/pages/basic/dragmarkers.vue')
+        component: () => import('@/pages/basic/geojsonareamark.vue'),
       },
       {
-        path: 'geojsonareamark',
-        name: 'GeojsonareaMark',
+        path: '/basic/map-bg',
+        name: 'MapBg',
         meta: {
-          title: 'Geojson区域标记'
+          title: '地图背景色',
         },
-        component: () => import('@/pages/basic/geojsonareamark.vue')
+        component: () => import('@/pages/basic/mapcolor.vue'),
       },
       {
-        path: 'mapcolor',
-        name: 'Mapcolor',
+        path: '/basic/map-bg2',
+        name: 'MapBg2',
         meta: {
-          title: '地图背景色'
+          title: '地图背景色2',
         },
-        component: () => import('@/pages/basic/mapcolor.vue')
+        component: () => import('@/pages/basic/mapcolor2.vue'),
       },
       {
-        path: 'mapcolor2',
-        name: 'Mapcolor2',
-        meta: {
-          title: '地图背景色2'
-        },
-        component: () => import('@/pages/basic/mapcolor2.vue')
-      },
-      {
-        path: 'mapStyle',
+        path: '/basic/map-style',
         name: 'MapStyle',
         meta: {
-          title: '地图样式'
+          title: '地图样式',
         },
-        component: () => import('@/pages/basic/custom.vue')
+        component: () => import('@/pages/basic/custom.vue'),
       },
       {
-        path: 'layerstyle',
-        name: 'layerstyle',
+        path: '/basic/vector-style',
+        name: 'VectorStyle',
         meta: {
-          title: '矢量图层样式'
+          title: '矢量图层样式',
         },
-        component: () => import('@/pages/basic/layerstyle.vue')
+        component: () => import('@/pages/basic/layerstyle.vue'),
       },
       {
-        path: 'staticmap',
-        name: 'staticMap',
+        path: '/basic/static-image',
+        name: 'StaticImage',
         meta: {
-          title: '静态图片'
+          title: '静态图片',
         },
-        component: () => import('@/pages/basic/staticimage.vue')
+        component: () => import('@/pages/basic/staticimage.vue'),
       },
     ],
   },

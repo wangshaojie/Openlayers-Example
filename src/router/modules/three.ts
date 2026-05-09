@@ -1,26 +1,22 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-const moduleName = 'threejs';
-
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/three',
-    name: moduleName,
-    redirect: '/three/model',
+    name: 'threejs',
+    redirect: '/three/model-viewer',
     meta: {
-      title: 'THREEJS',
-      icon: 'ant-design:advanced-outlined',
+      title: '三维模型',
     },
     children: [
       {
-        path: 'model',
-        name: 'Model',
+        path: '/three/model-viewer',
+        name: 'ModelViewer',
         meta: {
-          title: '加载3d模型'
+          title: '3D模型查看器',
         },
-        component: () => import('@/pages/threejs/modelviewer.vue')
+        component: () => import('@/pages/threejs/modelviewer.vue'),
       },
-      
     ],
   },
 ];

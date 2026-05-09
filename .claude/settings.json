@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/Admin/.claude/plugins/cache/minimax-skills/minimax-skills/1.0.0/skills/frontend-dev/**)",
+      "Bash(pnpm dev *)",
+      "Bash(npx vue-tsc *)",
+      "Bash(pnpm build *)",
+      "Bash(node -e ' *)",
+      "Bash(curl -I \"https://a.amap.com/jsapi_demos/static/demo-center-v2/car.png\")"
+    ]
+  }
+}

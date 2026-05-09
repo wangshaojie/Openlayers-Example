@@ -5,6 +5,234 @@ This template should help get you started developing with Vue 3 and TypeScript i
 Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
 
 
+## 页面介绍
+
+### 首页 (Home)
+项目概览页面，展示各功能模块入口和技术栈信息。采用卡片式布局，直观呈现基础功能、高级功能、三维地球、图表联动、三维模型等五大模块。
+
+### 基础功能 (Basic)
+
+| 页面 | 说明 |
+|------|------|
+| **地图切换** | 展示多种在线瓦片地图服务，包括ArcGIS卫星图、街道图等，支持地图样式切换 |
+| **离线瓦片** | 演示如何加载离线瓦片地图数据 |
+| **分类标注** | 在地图上添加和管理多种类型的标注点 |
+| **动态分类标注** | 支持动态更新和分类管理的标注功能 |
+| **区域颜色** | 使用GeoJSON数据为区域着色，展示区域配色效果 |
+| **拖拽标记** | 可拖拽的地图标记，支持交互式定位 |
+| **GeoJSON区域** | 加载和显示GeoJSON格式的区域数据 |
+| **地图背景色** | 地图底色和样式的自定义配置 |
+| **地图样式** | 自定义地图的视觉样式和配色方案 |
+| **矢量图层样式** | 控制矢量要素的渲染效果 |
+| **静态图片** | 在地图上叠加静态图片图层 |
+
+### 高级功能 (Advanced)
+
+| 页面 | 说明 |
+|------|------|
+| **轨迹路线动画** | 沿指定路线移动的动画效果 |
+| **热力图** | 基于点数据生成热力图可视化 |
+| **加载ArcGIS地图** | 集成ArcGIS在线地图服务 |
+| **聚合避难所地图** | 标注点的聚合显示与管理 |
+| **电子围栏** | 在地图上绘制电子围栏区域 |
+| **点线面绘制** | 交互式绘制点、线、面要素 |
+| **飞行路径** | 3D视角下的飞行轨迹展示 |
+| **添加图标** | 在地图上添加自定义图标标记 |
+| **散点图** | 在地图上绘制散点分布图 |
+| **定时开关灯** | 模拟路灯定时开关效果 |
+| **数据动态更新** | 实时更新地图数据 |
+| **土地分类** | 土地使用类型的可视化分类 |
+| **智驾轨迹回放** | 企业级智驾轨迹回放系统 |
+| **电子围栏预警** | **企业级电子围栏与越界预警系统** |
+
+### 智驾轨迹回放系统
+
+> 这是一个基于Vue3 + 高德地图JS API v2.0 构建的企业级智驾轨迹回放系统，适用于自动驾驶数据可视化、行车回放等场景。
+
+#### 核心功能
+
+1. **高精度轨迹模拟**
+   - 基于北京望京地区真实道路模拟
+   - 支持路口减速、直线加速等真实速度变化
+   - 时间按实际速度计算，还原真实行车场景
+
+2. **实时轨迹回放**
+   - 播放/暂停/倍速控制 (0.5x / 1x / 2x)
+   - 进度条拖拽跳转
+   - 地图视角跟随车辆移动
+
+3. **线性插值算法**
+   - 位置插值：两轨迹点间平滑过渡
+   - 速度插值：实时计算当前速度
+   - 方向插值：防止0°/360°切换时角度抖动
+
+4. **轨迹渐变样式**
+   - 灰色：完整路线背景
+   - 蓝色：已行驶轨迹
+   - 速度色彩映射（绿→黄→红）
+
+5. **车辆跟随**
+   - 3D视角下地图随车辆方向旋转
+   - 车辆图标自动旋转对准行驶方向
+   - 平滑的视角切换效果
+
+6. **Douglas-Peucker抽稀**
+   - 道格拉斯-普克算法优化轨迹点数
+   - 保持轨迹形状的同时提升渲染性能
+
+7. **实时数据面板**
+   - 速度 (km/h)
+   - 经纬度坐标
+   - 方向角
+   - 轨迹点数统计
+
+#### 技术亮点
+
+```typescript
+// 时间戳驱动，精确控制
+const totalDuration = computed(() =>
+  (rawPoints.value[rawPoints.value.length - 1].time - rawPoints.value[0].time) / 1000
+);
+
+// 线性插值实现平滑过渡
+const t = (targetTime - p1.time) / (p2.time - p1.time);
+const lng = p1.lng + (p2.lng - p1.lng) * t;
+const speed = p1.speed + (p2.speed - p1.speed) * t;
+
+// 角度突变处理
+if (Math.abs(p2.heading - p1.heading) > 180) {
+  heading = p2.heading > p1.heading
+    ? p1.heading - (360 - (p2.heading - p1.heading)) * t
+    : p1.heading + (360 - (p1.heading - p2.heading)) * t;
+}
+```
+
+#### 适用场景
+
+- 自动驾驶数据回放与分析
+- 车队管理轨迹监控
+- 行车记录仪数据可视化
+- 物流配送路径还原
+
+---
+
+### 电子围栏预警系统 ⭐
+
+> 基于Vue3 + 高德地图JS API v2.0 构建的企业级电子围栏与车辆轨迹越界预警系统，适用于车辆监控、区域管理等场景。
+
+#### 核心功能
+
+1. **双类型电子围栏绘制**
+   - 圆形围栏：指定圆心半径
+   - 多边形围栏：自定义顶点
+   - 使用 MouseTool 交互式绘制
+
+2. **围栏可视化编辑**
+   - 拖拽顶点调整形状
+   - 修改圆形半径
+   - 实时更新围栏数据
+
+3. **车辆轨迹模拟**
+   - 从围栏外向围栏内行驶，再驶出的完整轨迹
+   - 车辆图标跟随轨迹移动
+   - 轨迹平滑插值
+
+4. **GIS空间越界判断**
+   - **圆形判断**：`isPointInCircle` - 计算点到圆心距离，与半径比较
+   - **多边形判断**：`isPointInPolygon` - 射线法（Ray Casting）判断点是否在多边形内
+   - 实时检测车辆进入/驶出围栏
+
+5. **多级预警机制**
+   - 地图高亮闪烁
+   - 弹窗告警提示
+   - 右侧日志实时记录
+
+6. **围栏列表管理**
+   - 展示围栏名称和类型
+   - 单个围栏显隐切换
+   - 单独删除围栏
+
+#### 技术亮点
+
+```typescript
+/**
+ * GIS空间判断：点是否在圆形内
+ * 原理：计算点到圆心的地面距离，与半径比较
+ */
+const isPointInCircle = (point, center, radius) => {
+  const distance = window.AMap.GeometryUtil.distanceToLine(point, [center]);
+  return estimatedDistance <= radius;
+};
+
+/**
+ * GIS空间判断：点是否在多边形内
+ * 原理：射线法（Ray Casting Algorithm）
+ * 从点向右发射射线，计算与多边形边界的交点个数
+ * 奇数个交点 = 在多边形内，偶数个交点 = 在多边形外
+ */
+const isPointInPolygon = (point, polygon) => {
+  return window.AMap.GeometryUtil.isPointInRing(point, polygon);
+};
+
+/**
+ * 状态变化检测：进入/驶出
+ */
+if (!wasInside && isInside) {
+  triggerWarning('enter', fenceName, point); // 进入告警
+} else if (wasInside && !isInside) {
+  triggerWarning('exit', fenceName, point);  // 驶出告警
+}
+```
+
+#### 组合式Hooks封装
+
+```typescript
+// useAmap - 地图单例管理
+const initMap = async () => {
+  if (mapInstance) return mapInstance; // 单例返回
+  mapInstance = new window.AMap.Map(...);
+  return mapInstance;
+};
+
+// useFence - 围栏增删改查
+const fenceList = ref<Fence[]>([]);
+const startDraw = (type) => { /* 绘制逻辑 */ };
+const deleteFence = (id) => { /* 删除逻辑 */ };
+
+// useTrackJudge - 轨迹与越界判断
+const isPointInCircle = (point, center, radius) => { /* GIS判断 */ };
+const isPointInPolygon = (point, polygon) => { /* GIS判断 */ };
+const triggerWarning = (type, fenceName, point) => { /* 预警 */ };
+```
+
+#### 适用场景
+
+- 车辆区域管控与越界告警
+- 物流配送范围监控
+- 共享单车电子围栏
+- 无人机禁飞区管理
+
+### 三维地球 (Cesium)
+
+| 页面 | 说明 |
+|------|------|
+| **基础示例** | Cesium 3D地球基础功能演示 |
+| **旧金山示例** | 特定城市的3D地球展示 |
+
+### 图表联动 (ECharts)
+
+| 页面 | 说明 |
+|------|------|
+| **地图图表** | ECharts与OpenLayers集成，在地图上绑定图表交互 |
+
+### 三维模型 (Three.js)
+
+| 页面 | 说明 |
+|------|------|
+| **3D模型查看器** | Three.js加载和展示3D模型 |
+
+---
+
 ## 重要类
  - layer：层
  - contorl：控件

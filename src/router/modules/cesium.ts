@@ -1,33 +1,30 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-const moduleName = 'cesium';
-
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/cesium',
-    name: moduleName,
-    redirect: '/cesium/cesiumfirst',
+    name: 'cesium',
+    redirect: '/cesium/basic-example',
     meta: {
-      title: 'CESIUM',
-      icon: 'ant-design:advanced-outlined',
+      title: '三维地球',
     },
     children: [
       {
-        path: 'cesiumfirst',
-        name: 'CesiumFirst',
+        path: '/cesium/basic-example',
+        name: 'CesiumBasic',
         meta: {
-          title: '基础的例子'
+          title: '基础示例',
         },
-        component: () => import('@/pages/cesium/first.vue')
+        component: () => import('@/pages/cesium/first.vue'),
       },
       {
-        path: 'cesiumsecond',
-        name: 'CesiumSecond',
+        path: '/cesium/san-francisco',
+        name: 'CesiumSanFrancisco',
         meta: {
-          title: '初始化旧金山'
+          title: '旧金山示例',
         },
-        component: () => import('@/pages/cesium/jiujinshan.vue')
-      }
+        component: () => import('@/pages/cesium/jiujinshan.vue'),
+      },
     ],
   },
 ];

@@ -1,186 +1,146 @@
 <template>
-  <div id="map"></div>
-  <div id="basemaps-wrapper">
-    <select id="basemaps" @change="ChangeBasemapStyle">
-      <option value="arcgis/outdoor">arcgis/outdoor</option>
-      <option value="arcgis/community">arcgis/community</option>
-      <option value="arcgis/navigation">arcgis/navigation</option>
-      <option value="arcgis/streets">arcgis/streets</option>
-      <option value="arcgis/streets-relief">arcgis/streets-relief</option>
-      <option value="arcgis/imagery">arcgis/imagery</option>
-      <option value="arcgis/oceans">arcgis/oceans</option>
-      <option value="arcgis/topographic">arcgis/topographic</option>
-      <option value="arcgis/light-gray">arcgis/light-gray</option>
-      <option value="arcgis/dark-gray">arcgis/dark-gray</option>
-      <option value="arcgis/human-geography">arcgis/human-geography</option>
-      <option value="arcgis/charted-territory">arcgis/charted-territory</option>
-      <option value="arcgis/nova">arcgis/nova</option>
-      <option value="osm/standard">osm/standard</option>
-      <option value="osm/navigation">osm/navigation</option>
-      <option value="osm/streets">osm/streets</option>
-      <option value="osm/blueprint">osm/blueprint</option>
-    </select>
-  </div>
+  <div class="home-page">
+    <PageHeader title="地图可视化平台" sub-title="基于 OpenLayers 的多功能地图演示项目" />
 
-  <div id="languages-wrapper">
-    <select id="languages" @change="setLanguage">
-      <option value="global">Global</option>
-      <option value="ar">Arabic</option>
-      <option value="bs">Bosnian</option>
-      <option value="bg">Bulgarian</option>
-      <option value="ca">Catalan</option>
-      <option value="zh-CN">Chinese (Simplified)</option>
-      <option value="zh-HK">Chinese (Hong Kong)</option>
-      <option value="zh-TW">Chinese (Taiwan)</option>
-      <option value="hr">Croatian</option>
-      <option value="cs">Czech</option>
-      <option value="da">Danish</option>
-      <option value="nl">Dutch</option>
-      <option value="en">English</option>
-      <option value="et">Estonian</option>
-      <option value="fi">Finnish</option>
-      <option value="fr">French</option>
-      <option value="de">German</option>
-      <option value="el">Greek</option>
-      <option value="he">Hebrew</option>
-      <option value="hu">Hungarian</option>
-      <option value="id">Indonesian</option>
-      <option value="it">Italian</option>
-      <option value="ja">Japanese</option>
-      <option value="ko">Korean</option>
-      <option value="lv">Latvian</option>
-      <option value="lt">Lithuanian</option>
-      <option value="nb">Norwegian</option>
-      <option value="pl">Polish</option>
-      <option value="pt-BR">Portugese (Brazil)</option>
-      <option value="pt-PT">Portugese (Portugal)</option>
-      <option value="ro">Romanian</option>
-      <option value="ru">Russian</option>
-      <option value="sr">Serbian</option>
-      <option value="sk">Slovak</option>
-      <option value="sl">Slovenian</option>
-      <option value="es">Spanish</option>
-      <option value="sv">Swedish</option>
-      <option value="th">Thai</option>
-      <option value="tr">Turkish</option>
-      <option value="uk" selected>Ukrainian</option>
-      <option value="vi">Vietnamese</option>
-    </select>
+    <a-row :gutter="[24, 24]">
+      <a-col :xs="24" :sm="12" :md="8" :lg="6" v-for="category in categories" :key="category.path">
+        <router-link :to="category.path">
+          <a-card hoverable class="category-card">
+            <div class="category-icon">
+              <component :is="category.icon" />
+            </div>
+            <div class="category-info">
+              <h3 class="category-title">{{ category.title }}</h3>
+              <p class="category-desc">{{ category.description }}</p>
+              <span class="category-count">{{ category.count }} 个示例</span>
+            </div>
+          </a-card>
+        </router-link>
+      </a-col>
+    </a-row>
+
+    <a-divider />
+
+    <div class="project-info">
+      <a-typography-title :level="4">项目技术栈</a-typography-title>
+      <a-row :gutter="[16, 16]">
+        <a-col :xs="12" :sm="8" :md="6" v-for="tech in techStack" :key="tech.name">
+          <a-tag :color="tech.color">
+            {{ tech.name }}
+          </a-tag>
+        </a-col>
+      </a-row>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Map, View } from "ol"; //地图,视图
-import OSM from "ol/source/OSM"; //可以理解为数据源,就是一张图片
-import TileLayer from "ol/layer/Tile"; //可以理解为图层
-import { Group as LayerGroup } from "ol/layer";
-import { fromLonLat } from "ol/proj"; //将坐标从经度/纬度转换为不同的投影。
-import { apply } from "ol-mapbox-style";
-import { Attribution } from "ol/control";
-import { onMounted } from "vue";
+import {
+  DashboardOutlined,
+  ExperimentOutlined,
+  GlobalOutlined,
+  BarChartOutlined,
+  BoxPlotOutlined,
+} from '@ant-design/icons-vue';
+import PageHeader from '@/components/common/PageHeader.vue';
 
-const accessToken =
-  "AAPTxy8BH1VEsoebNVZXo8HurMwi75iMmH8_ATZWBZ9xqum5ptX7r8guWn0h29FFT_5S7KCH5xrFe171oR96pAO2EL78Qg48E2hYyU6YZRl39k4mysE3GPOltTjqm5A6_wAGYj8zb0fQKtVxc3DOTYuH_iyMR6Qc8bpQ0mG7eYbfwSAjYQUliwdhR6C4p6qU5Q7eDb28AIHSde4pKX-DRTT97lpitSXhX4AhEkXD_4n4hW8.AT1_9UIP0usd";
-const basemapId = "arcgis/outdoor";
-const baseUrl =
-  "https://basemapstyles-api.arcgis.com/arcgis/rest/services/styles/v2/styles";
-const url = (style: string) => `${baseUrl}/${style}?token=${accessToken}`;
-const languageUrl = (language: string) => `${baseUrl}/arcgis/outdoor?token=${accessToken}&language=${language}`;
+const categories = [
+  {
+    path: '/basic',
+    title: '基础功能',
+    description: '地图切换、瓦片加载、标注绘制等基础功能',
+    count: 12,
+    icon: DashboardOutlined,
+  },
+  {
+    path: '/advanced',
+    title: '高级功能',
+    description: '热力图、轨迹动画、电子围栏、点线面绘制',
+    count: 12,
+    icon: ExperimentOutlined,
+  },
+  {
+    path: '/cesium',
+    title: '三维地球',
+    description: '基于 Cesium 的三维地球展示',
+    count: 2,
+    icon: GlobalOutlined,
+  },
+  {
+    path: '/echarts',
+    title: '图表联动',
+    description: 'ECharts 与 OpenLayers 集成示例',
+    count: 1,
+    icon: BarChartOutlined,
+  },
+  {
+    path: '/three',
+    title: '三维模型',
+    description: 'Three.js 3D 模型加载与展示',
+    count: 1,
+    icon: BoxPlotOutlined,
+  },
+];
 
-let map = new Map({});
-
-const initMap = () => {
-  const mapEl = document.getElementById("map");
-  if (!mapEl) return;
-  map = new Map({
-    target: mapEl,
-    layers: [
-      // new TileLayer({
-      //   source: new OSM()
-      // })
-    ],
-  });
-
-  // map.setLayers([
-  //   new TileLayer({
-  //     source: new OSM({
-  //       attributions: '© 自定义版权信息', // 这里设置自定义版权信息
-  //     }),
-  //   }),
-  // ]);
-
-  map.setView(
-    new View({
-      center: fromLonLat([116.320906,40.046739]),
-      zoom: 12,
-      // projection: 'EPSG:4326', // ol 默认使用的是 EPSG:3857，百度配置投影坐标系
-    })
-  );
-};
-
-const setBasemap = (style: string) => {
-  // Clear out existing layers.
-  map.setLayerGroup(new LayerGroup());
-  // Instantiate the given basemap layer.
-  apply(map, url( style )).then(() => {
-    const attribution = new Attribution({
-      label: "123",
-      tipLabel: "456",
-      collapsible: true, // 是否可折叠（根据您的需求设置）
-    });
-    attribution.setTarget("你好啊");
-
-    map.addControl(attribution); // 将Attribution控件添加到地图上
-  });
-};
-
-const ChangeBasemapStyle = (e: Event) => {
-  const target = e.target as HTMLSelectElement;
-  if (target) {
-    setBasemap(target.value);
-  }
-};
-
-const setLanguage = (e: Event) => {
-  const target = e.target as HTMLSelectElement;
-  // Clear out existing layers.
-  map.setLayerGroup(new LayerGroup());
-  // Instantiate the given basemap layer.
-  apply(map, languageUrl(target.value)).then(() => {
-
-    // Add Esri attribution
-    // Learn more in https://esriurl.com/attribution
-    // const source = map.getLayers().item(0).getSource();
-    // console.log(source);
-    // source.setAttributions("Powered by <a href='https://www.esri.com/en-us/home' target='_blank'>Esri</a> | ")
-  });
-};
-
-onMounted(() => {
-  initMap();
-  setBasemap(basemapId);
-});
+const techStack = [
+  { name: 'Vue 3', color: 'green' },
+  { name: 'TypeScript', color: 'blue' },
+  { name: 'Vite', color: 'purple' },
+  { name: 'OpenLayers', color: 'orange' },
+  { name: 'Cesium', color: '#fff' },
+  { name: 'ECharts', color: 'red' },
+  { name: 'Three.js', color: 'geekblue' },
+  { name: 'Ant Design Vue', color: 'cyan' },
+  { name: 'Tailwind CSS', color: 'teal' },
+];
 </script>
 
 <style scoped>
-
-#basemaps-wrapper {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-#basemaps {
-  font-size: 16px;
-  padding: 4px 8px;
+.home-page {
+  padding: 0;
 }
 
-#languages-wrapper {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+.category-card {
+  height: 100%;
+  transition: all 0.3s ease;
 }
-#languages {
+
+.category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.category-icon {
+  font-size: 32px;
+  color: #1890ff;
+  margin-bottom: 16px;
+}
+
+.category-title {
   font-size: 16px;
-  padding: 4px 8px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.category-desc {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.45);
+  margin: 0 0 12px 0;
+  line-height: 1.5;
+}
+
+.category-count {
+  font-size: 12px;
+  color: #1890ff;
+  background: #e6f7ff;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.project-info {
+  background: #fafafa;
+  padding: 24px;
+  border-radius: 8px;
 }
 </style>
