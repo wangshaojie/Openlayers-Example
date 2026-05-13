@@ -121,6 +121,14 @@ const routes: Array<RouteRecordRaw> = [
         },
         component: () => import('@/pages/advanced/FenceWarning.vue'),
       },
+      {
+        path: '/advanced/spatial-analysis',
+        name: 'SpatialAnalysis',
+        meta: {
+          title: 'GIS空间分析',
+        },
+        component: () => import('@/pages/superMap/SpatialAnalysis.vue'),
+      },
     ],
   },
 ];

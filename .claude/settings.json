@@ -6,7 +6,16 @@
       "Bash(npx vue-tsc *)",
       "Bash(pnpm build *)",
       "Bash(node -e ' *)",
-      "Bash(curl -I \"https://a.amap.com/jsapi_demos/static/demo-center-v2/car.png\")"
+      "Bash(curl -I \"https://a.amap.com/jsapi_demos/static/demo-center-v2/car.png\")",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill //F //PID 23960)",
+      "Bash(taskkill //F //PID 11308)",
+      "Bash(taskkill //F //PID 31584)",
+      "Bash(taskkill //F //PID 31668)",
+      "Bash(curl -s http://localhost:5174)"
     ]
   }
 }
